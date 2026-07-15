@@ -31,4 +31,13 @@ public class CustomerController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id,@RequestBody Customer customer){
+        try{
+            return ResponseEntity.ok(customerService.updateCustomer(id,customer));
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }
