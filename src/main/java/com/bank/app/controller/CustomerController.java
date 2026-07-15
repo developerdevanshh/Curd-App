@@ -1,7 +1,6 @@
 package com.bank.app.controller;
 
 import com.bank.app.model.Customer;
-import com.bank.app.repository.CustomerRepository;
 import com.bank.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,11 @@ import java.util.List;
 @RequestMapping("/api/customers")
 public class CustomerController {
     @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     @PostMapping()
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
@@ -39,5 +42,17 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable Long id){
+        try{
+            customerService.deleteCustomer(id);
+            return ResponseEntity.ok("Customer deleted Successfully");
+        }catch (Exception e){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
 }
