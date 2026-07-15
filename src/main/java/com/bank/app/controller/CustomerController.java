@@ -24,5 +24,12 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getAllCustomer(){
         return ResponseEntity.ok(customerService.getALlCustomers());
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getCustomerById(@PathVariable Long id){
+        return customerService.getCustomerById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
+    }
 
 }
